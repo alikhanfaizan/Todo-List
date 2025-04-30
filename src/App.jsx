@@ -1,29 +1,19 @@
-import { useState } from "react";
+import { useReducer} from "react";
 import "./App.css";
 import AddTodo from "./Components/AddTodo/AddTodo";
 import TodoList from "./Components/TodoList/TodoList";
 import todoContext from "./context/TodoContext";
+import todoReducer from "./reducers/todoReducer";
+import TodoDispatchContext from "./context/TodoDispatchContext";
 
 function App() {
-  const [list, setList] = useState([
-    { id: 1, todoData: "Todo 1", finished: false },
-    { id: 2, todoData: "Todo 2", finished: false },
-    { id: 3, todoData: "Todo 3", finished: false },
-    { id: 4, todoData: "Todo 4", finished: false },
-    { id: 5, todoData: "Todo 5", finished: false },
-    { id: 6, todoData: "Todo 6", finished: false },
-  ]);
+  const [list,dispach]=useReducer(todoReducer,[]);
   return (
-    <todoContext.Provider value={{ list, setList }}>
-      <AddTodo
-        updateList={(todo) =>
-          setList([
-            ...list,
-            { id: Date.now(), todoData: todo, finished: false },
-          ])
-        }
-      />
+    <todoContext.Provider value={{ list }}>
+      <TodoDispatchContext.Provider value={{dispach}}>
+      <AddTodo/>
       <TodoList/>
+      </TodoDispatchContext.Provider>
     </todoContext.Provider>
   );
 }
