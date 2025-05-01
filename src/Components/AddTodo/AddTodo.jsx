@@ -1,6 +1,4 @@
 import React, { useContext, useState } from "react";
-import { useDispatch } from "react-redux";
-import TodoDispatchContext from "../../context/TodoDispatchContext";
 
 function AddTodo ({todoAdd}) {
   
@@ -17,7 +15,7 @@ function AddTodo ({todoAdd}) {
       />
       <button
         onClick={() => {
-          todoAdd(inputtext);
+          todoAdd({todoText:inputtext});
           setInputText("");
         }}
       >
