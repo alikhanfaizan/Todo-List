@@ -1,22 +1,22 @@
 import React, { useContext } from "react";
 import Todo from "../Todo/Todo";
 import todoContext from "../../context/TodoContext";
+import { useDispatch, useSelector } from "react-redux";
 import TodoDispatchContext from "../../context/TodoDispatchContext";
 
-function TodoList() {
-  const { list } = useContext(todoContext);
-  const {dispach} = useContext(TodoDispatchContext);
+function TodoList({ todoDelete, todoEdit, todoFinished }) {
+  const list = useSelector((state) => state.todo);
 
   function onFinished(todo, isFinished) {
-    dispach({ type: "finished_todo", payload: { todo, isFinished } });
+    todoFinished(todo, isFinished);
   }
 
   function onDelete(todo) {
-    dispach({ type: "delete_todo", payload: {todo } });
+    todoDelete(todo);
   }
 
   function onEdit(todo, todoText) {
-    dispach({ type: "edit_todo", payload: {todo , todoText} });
+    todoEdit(todo, todoText);
   }
 
   return (
@@ -29,8 +29,8 @@ function TodoList() {
             todoData={todo.todoData}
             id={todo.id}
             changeFinished={(isFinished) => onFinished(todo, isFinished)}
-            onDelete={()=>onDelete(todo)}
-            onEdit={(todoText)=>onEdit(todo, todoText)}
+            onDelete={() => onDelete(todo)}
+            onEdit={(todoText) => onEdit(todo, todoText)}
           />
         ))}
     </div>
